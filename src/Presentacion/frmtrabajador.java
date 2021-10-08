@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Presentacion;
 
 import Datos.vcliente;
@@ -11,6 +10,7 @@ import Datos.vtrabajador;
 import Logica.fcliente;
 import Logica.fproducto;
 import Logica.ftrabajador;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,7 +28,7 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
         mostrar("");
         inhabilitar();
     }
-       private String accion = "guardar";
+    private String accion = "guardar";
 
     void ocultar_columnas() {
         tablalistado.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -70,7 +70,7 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
 
     void habilitar() {
         txtidpersona.setVisible(false);
-        
+
         txtnombre.setEnabled(true);
         txtapaterno.setEnabled(true);
         txtamaterno.setEnabled(true);
@@ -99,7 +99,6 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
         txtsueldo.setText("");
         txtlogin.setText("");
         txtpassword.setText("");
-        
 
     }
 
@@ -118,7 +117,6 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
         }
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -673,20 +671,19 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
             txtapaterno.requestFocus();
             return;
         }
-        
+
         if (txtamaterno.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un apellido para el Trabajador");
             txtamaterno.requestFocus();
             return;
         }
-        
 
         if (txtnum_documento.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un Número de Doc para el Trabajador");
             txtnum_documento.requestFocus();
             return;
         }
-        
+
         if (txtsueldo.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un Sueldo para el trabajador");
             txtsueldo.requestFocus();
@@ -702,8 +699,6 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
             txtpassword.requestFocus();
             return;
         }
-        
-        
 
         vtrabajador dts = new vtrabajador();
         ftrabajador func = new ftrabajador();
@@ -712,23 +707,23 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
 
         dts.setApaterno(txtapaterno.getText());
         dts.setAmaterno(txtamaterno.getText());
-        
+
         int seleccionado = cbotipo_documento.getSelectedIndex();
         dts.setTipo_documento((String) cbotipo_documento.getItemAt(seleccionado));
         dts.setNum_documento(txtnum_documento.getText());
         dts.setDireccion(txtdireccion.getText());
         dts.setTelefono(txttelefono.getText());
         dts.setEmail(txtemail.getText());
-        
+
         dts.setSueldo(Double.parseDouble(txtsueldo.getText()));
-        seleccionado=cboacceso.getSelectedIndex();
-        dts.setAcceso((String)cboacceso.getItemAt(seleccionado));
+        seleccionado = cboacceso.getSelectedIndex();
+        dts.setAcceso((String) cboacceso.getItemAt(seleccionado));
         dts.setLogin(txtlogin.getText());
         dts.setPassword(txtpassword.getText());
-        
-        seleccionado=cboestado.getSelectedIndex();
-        dts.setEstado((String)cboestado.getItemAt(seleccionado));
-        
+
+        seleccionado = cboestado.getSelectedIndex();
+        dts.setEstado((String) cboestado.getItemAt(seleccionado));
+
         if (accion.equals("guardar")) {
             if (func.insertar(dts)) {
                 JOptionPane.showMessageDialog(rootPane, "el trabajador fue registrado satisfactoriamente");
@@ -737,8 +732,7 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
 
             }
 
-        }
-        else if (accion.equals("editar")){
+        } else if (accion.equals("editar")) {
             dts.setIdpersona(Integer.parseInt(txtidpersona.getText()));
 
             if (func.editar(dts)) {
@@ -759,7 +753,7 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
         btnguardar.setText("Editar");
         habilitar();
         btneliminar.setEnabled(true);
-        accion="editar";
+        accion = "editar";
 
         int fila = tablalistado.rowAtPoint(evt.getPoint());
 
@@ -773,7 +767,7 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
         txtdireccion.setText(tablalistado.getValueAt(fila, 6).toString());
         txttelefono.setText(tablalistado.getValueAt(fila, 7).toString());
         txtemail.setText(tablalistado.getValueAt(fila, 8).toString());
-        
+
         txtsueldo.setText(tablalistado.getValueAt(fila, 9).toString());
         cboacceso.setSelectedItem(tablalistado.getValueAt(fila, 10).toString());
         txtlogin.setText(tablalistado.getValueAt(fila, 11).toString());
@@ -789,11 +783,11 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
         // TODO add your handling code here:
         if (!txtidpersona.getText().equals("")) {
-            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar el Trabajador?","Confirmar",2);
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar el Trabajador?", "Confirmar", 2);
 
-            if (confirmacion==0) {
+            if (confirmacion == 0) {
                 ftrabajador func = new ftrabajador();
-                vtrabajador dts= new vtrabajador();
+                vtrabajador dts = new vtrabajador();
 
                 dts.setIdpersona(Integer.parseInt(txtidpersona.getText()));
                 func.eliminar(dts);
@@ -845,47 +839,64 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtloginActionPerformed
 
     private void btnnuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevo1ActionPerformed
-        validarcedula();
+
         Validarcampos();
         btnguardar.setEnabled(true);
     }//GEN-LAST:event_btnnuevo1ActionPerformed
 
     private void txtnombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreKeyTyped
-        char c=evt.getKeyChar();
-         if((c<'a' || c>'z') && (c<'A' || c>'Z'))evt.consume();
-         btnguardar.setEnabled(false);
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        btnguardar.setEnabled(false);
     }//GEN-LAST:event_txtnombreKeyTyped
 
     private void txtapaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtapaternoKeyTyped
-        char c=evt.getKeyChar();
-        if((c<'a' || c>'z') && (c<'A' || c>'Z'))evt.consume();
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
         btnguardar.setEnabled(false);
     }//GEN-LAST:event_txtapaternoKeyTyped
 
     private void txtamaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtamaternoKeyTyped
-        char c=evt.getKeyChar();
-         if((c<'a' || c>'z') && (c<'A' || c>'Z'))evt.consume();
-         btnguardar.setEnabled(false);
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        btnguardar.setEnabled(false);
     }//GEN-LAST:event_txtamaternoKeyTyped
 
     private void txtnum_documentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnum_documentoKeyTyped
-        char car=evt.getKeyChar();
-        if(txtnum_documento.getText().length()==10)evt.consume();
-        if(car <'0' || car>'9')evt.consume();
+        char car = evt.getKeyChar();
+        if (txtnum_documento.getText().length() == 10) {
+            evt.consume();
+        }
+        if (car < '0' || car > '9') {
+            evt.consume();
+        }
         btnguardar.setEnabled(false);
     }//GEN-LAST:event_txtnum_documentoKeyTyped
 
     private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
-       char car=evt.getKeyChar();
-        if(txttelefono.getText().length()==10)evt.consume();
-        if(car <'0' || car>'9')evt.consume();
+        char car = evt.getKeyChar();
+        if (txttelefono.getText().length() == 10) {
+            evt.consume();
+        }
+        if (car < '0' || car > '9') {
+            evt.consume();
+        }
         btnguardar.setEnabled(false);
     }//GEN-LAST:event_txttelefonoKeyTyped
 
     private void txtsueldoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsueldoKeyTyped
-        char car=evt.getKeyChar();
-        if(txtsueldo.getText().length()==10)evt.consume();
-        if(car <'0' || car>'9')evt.consume();
+        char car = evt.getKeyChar();
+        if (txtsueldo.getText().length() == 10) {
+            evt.consume();
+        }
+        if (car < '0' || car > '9')
+            evt.consume();
     }//GEN-LAST:event_txtsueldoKeyTyped
 
     private void cboaccesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboaccesoActionPerformed
@@ -912,27 +923,48 @@ public class frmtrabajador extends javax.swing.JInternalFrame {
         btnguardar.setEnabled(false);
     }//GEN-LAST:event_cboaccesoMouseClicked
 
-    private void validarcedula(){
-        if(Validaciones.Cedula(txtnum_documento.getText())){
-            JOptionPane.showMessageDialog(null, "Cedula Correcta");
-        }else{
-            JOptionPane.showMessageDialog(null, "Cedula Incorrecta");
+
+
+    private void Validarcampos() {
+        ArrayList<String> errores = new ArrayList<>();
+        if (!Validaciones.Cedula(txtnum_documento.getText())) {
+            errores.add("Cedula Incorrecta");
         }
-    } 
-    
-    private void Validarcampos(){
-        if(txtnombre.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo nombre incompleto");
-        if(txtapaterno.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Apellido paterno incompleto");
-        if(txtamaterno.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Apellido materno incompleto");
-        if(txtnum_documento.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Numero de documento incompleto");
-        if(txtdireccion.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo direccion incompleto");
-        if(txttelefono.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Telefono incompleto");
-        if(txtemail.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Email incompleto");
-        if(txtsueldo.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Sueldo incompleto");
-        if(txtlogin.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Login incompleto");
-        if(txtpassword.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Password incompleto");
+        if (txtnombre.getText().isEmpty()) {
+            errores.add("Campo nombre incompleto\n");
+        }
+        if (txtapaterno.getText().isEmpty()) {
+            errores.add("Campo Apellido paterno incompleto\n");
+        }
+        if (txtamaterno.getText().isEmpty()) {
+            errores.add("Campo Apellido materno incompleto\n");
+        }
+        if (txtnum_documento.getText().isEmpty()) {
+            errores.add("Campo Numero de documento incompleto\n");
+        }
+        if (txtdireccion.getText().isEmpty()) {
+            errores.add("Campo direccion incompleto\n");
+        }
+        if (txttelefono.getText().isEmpty()) {
+            errores.add("Campo Telefono incompleto\n");
+        }
+        if (txtemail.getText().isEmpty()) {
+            errores.add("Campo Email incompleto\n");
+        }
+        if (txtsueldo.getText().isEmpty()) {
+            errores.add("Campo Sueldo incompleto\n");
+        }
+        if (txtlogin.getText().isEmpty()) {
+            errores.add("Campo Login incompleto\n");
+        }
+        if (txtpassword.getText().isEmpty()) {
+            errores.add("Campo Password incompleto\n");
+        }
+        if (errores.size() != 0) {
+            JOptionPane.showMessageDialog(null, "Campos incompletos");
+        }
     }
-    
+
     /**
      * @param args the command line arguments
      */

@@ -14,11 +14,12 @@ public class vreserva {
     private Date fecha_salida;
     private Double costo_alojamiento;
     private String estado;
+    private boolean eliminado;
 
     public vreserva() {
     }
 
-    public vreserva(int idreserva, int idhabitacion, int idcliente, int idtrabajador, String tipo_reserva, Date fecha_reserva, Date fecha_ingresa, Date fecha_salida, Double costo_alojamiento, String estado) {
+    public vreserva(int idreserva, int idhabitacion, int idcliente, int idtrabajador, String tipo_reserva, Date fecha_reserva, Date fecha_ingresa, Date fecha_salida, Double costo_alojamiento, String estado, boolean eliminado) {
         this.idreserva = idreserva;
         this.idhabitacion = idhabitacion;
         this.idcliente = idcliente;
@@ -29,7 +30,17 @@ public class vreserva {
         this.fecha_salida = fecha_salida;
         this.costo_alojamiento = costo_alojamiento;
         this.estado = estado;
+        this.eliminado = eliminado;
     }
+
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+
 
     public int getIdreserva() {
         return idreserva;

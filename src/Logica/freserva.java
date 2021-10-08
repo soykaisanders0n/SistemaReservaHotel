@@ -45,7 +45,7 @@ public class freserva {
                "(select apaterno from persona where idpersona=r.idtrabajador)as trabajadorap,"+
                "r.tipo_reserva,r.fecha_reserva,r.fec"
                + "ha_ingresa,r.fecha_salida,"+
-               "r.costo_alojamiento,r.estado from reserva r inner join habitacion h on r.idhabitacion=h.idhabitacion where r.fecha_reserva like '%"+ buscar + "%' order by idreserva desc";
+               "r.costo_alojamiento,r.estado from reserva r inner join habitacion h on r.idhabitacion=h.idhabitacion where eliminado='false' and r.fecha_reserva like '%"+ buscar + "%' order by idreserva desc";
        
        try {
            Statement st= cn.createStatement();
@@ -82,8 +82,8 @@ public class freserva {
    } 
    
    public boolean insertar (vreserva dts){
-       sSQL="insert into reserva (idhabitacion,idcliente,idtrabajador,tipo_reserva,fecha_reserva,fecha_ingresa,fecha_salida,costo_alojamiento,estado)" +
-               "values (?,?,?,?,?,?,?,?,?)";
+       sSQL="insert into reserva (idhabitacion,idcliente,idtrabajador,tipo_reserva,fecha_reserva,fecha_ingresa,fecha_salida,costo_alojamiento,estado, eliminado)" +
+               "values (?,?,?,?,?,?,?,?,?,?)";
        try {
            
            PreparedStatement pst=cn.prepareStatement(sSQL);
@@ -96,6 +96,7 @@ public class freserva {
            pst.setDate(7, dts.getFecha_salida());
            pst.setDouble(8, dts.getCosto_alojamiento());
            pst.setString(9, dts.getEstado());
+           pst.setBoolean(10, dts.isEliminado());
            
            int n=pst.executeUpdate();
            
@@ -180,13 +181,15 @@ public class freserva {
    
   
    public boolean eliminar (vreserva dts){
+       String sqleliminar="update reserva set eliminado=? where idreserva=?";
        sSQL="delete from reserva where idreserva=?";
        
        try {
            
-           PreparedStatement pst=cn.prepareStatement(sSQL);
+           PreparedStatement pst=cn.prepareStatement(sqleliminar);
            
-           pst.setInt(1, dts.getIdreserva());
+           pst.setBoolean(1, dts.isEliminado());
+           pst.setInt(2, dts.getIdreserva());
            
            int n=pst.executeUpdate();
            

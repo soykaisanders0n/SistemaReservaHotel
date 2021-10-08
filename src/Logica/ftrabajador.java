@@ -11,6 +11,7 @@ import Datos.vtrabajador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -30,7 +31,7 @@ public class ftrabajador {
     public DefaultTableModel mostrar(String buscar) {
         DefaultTableModel modelo;
 
-        String[] titulos = {"ID", "Nombre", "Apaterno", "Amaterno", "Doc", "Número Documento", "Dirección", "Teléfono", "Email", "Sueldo","Acceso","Login","Clave","Estado"};
+        String[] titulos = {"ID", "Nombre", "Apaterno", "Amaterno", "Doc", "Número Documento", "Dirección", "Teléfono", "Email", "Sueldo", "Acceso", "Login", "Clave", "Estado"};
 
         String[] registro = new String[14];
 
@@ -61,7 +62,7 @@ public class ftrabajador {
                 registro[11] = rs.getString("login");
                 registro[12] = rs.getString("password");
                 registro[13] = rs.getString("estado");
-                
+
                 totalregistros = totalregistros + 1;
                 modelo.addRow(registro);
 
@@ -99,7 +100,7 @@ public class ftrabajador {
             pst2.setString(3, dts.getLogin());
             pst2.setString(4, dts.getPassword());
             pst2.setString(5, dts.getEstado());
-            
+
             int n = pst.executeUpdate();
 
             if (n != 0) {
@@ -116,16 +117,23 @@ public class ftrabajador {
                 return false;
             }
 
-        } catch (Exception e) {
-            JOptionPane.showConfirmDialog(null, e);
+        } catch (SQLException e) {
+
+            if (e.getErrorCode() == 1062) {
+                JOptionPane.showMessageDialog(null, "El valor '" + e.getMessage().substring(17, 27) + "' ya existe.");
+            } else {
+                JOptionPane.showMessageDialog(null, e);
+            }
+            System.out.println(e.getLocalizedMessage() + " error " + e.getErrorCode());
             return false;
+
         }
     }
 
     public boolean editar(vtrabajador dts) {
         sSQL = "update persona set nombre=?,apaterno=?,amaterno=?,tipo_documento=?,num_documento=?,"
                 + " direccion=?,telefono=?,email=? where idpersona=?";
-        
+
         sSQL2 = "update trabajador set sueldo=?,acceso=?,login=?,password=?,estado=?"
                 + " where idpersona=?";
         try {
@@ -166,9 +174,16 @@ public class ftrabajador {
                 return false;
             }
 
-        } catch (Exception e) {
-            JOptionPane.showConfirmDialog(null, e);
+        } catch (SQLException e) {
+
+            if (e.getErrorCode() == 1062) {
+                JOptionPane.showMessageDialog(null, "El valor '" + e.getMessage().substring(17, 27) + "' ya existe.");
+            } else {
+                JOptionPane.showMessageDialog(null, e);
+            }
+            System.out.println(e.getLocalizedMessage() + " error " + e.getErrorCode());
             return false;
+
         }
     }
 
@@ -181,10 +196,8 @@ public class ftrabajador {
             PreparedStatement pst = cn.prepareStatement(sSQL);
             PreparedStatement pst2 = cn.prepareStatement(sSQL2);
 
-            
             pst.setInt(1, dts.getIdpersona());
 
-            
             pst2.setInt(1, dts.getIdpersona());
 
             int n = pst.executeUpdate();
@@ -208,12 +221,11 @@ public class ftrabajador {
             return false;
         }
     }
-    
-    
-    public DefaultTableModel login(String login,String password) {
+
+    public DefaultTableModel login(String login, String password) {
         DefaultTableModel modelo;
 
-        String[] titulos = {"ID", "Nombre", "Apaterno", "Amaterno","Acceso","Login","Clave","Estado"};
+        String[] titulos = {"ID", "Nombre", "Apaterno", "Amaterno", "Acceso", "Login", "Clave", "Estado"};
 
         String[] registro = new String[8];
 
@@ -234,12 +246,12 @@ public class ftrabajador {
                 registro[1] = rs.getString("nombre");
                 registro[2] = rs.getString("apaterno");
                 registro[3] = rs.getString("amaterno");
-                
+
                 registro[4] = rs.getString("acceso");
                 registro[5] = rs.getString("login");
                 registro[6] = rs.getString("password");
                 registro[7] = rs.getString("estado");
-                
+
                 totalregistros = totalregistros + 1;
                 modelo.addRow(registro);
 
@@ -252,11 +264,5 @@ public class ftrabajador {
         }
 
     }
-    
-    
-    
-    
-    
-    
-    
+
 }

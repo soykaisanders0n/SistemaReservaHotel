@@ -688,6 +688,7 @@ public class frmreserva extends javax.swing.JInternalFrame {
         dts.setEstado((String) cboestado.getItemAt(seleccionado));
         
         if (accion.equals("guardar")) {
+            dts.setEliminado(false);
             if (func.insertar(dts)) {
                 JOptionPane.showMessageDialog(rootPane, "La reserva fue registrada satisfactoriamente");
                 mostrar("");
@@ -760,6 +761,7 @@ public class frmreserva extends javax.swing.JInternalFrame {
                 vreserva dts = new vreserva();
                 
                 dts.setIdreserva(Integer.parseInt(txtidreserva.getText()));
+                dts.setEliminado(true);
                 func.eliminar(dts);
                 mostrar("");
                 inhabilitar();
