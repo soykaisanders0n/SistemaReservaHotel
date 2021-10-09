@@ -32,6 +32,7 @@ public class frmproducto extends javax.swing.JInternalFrame {
         tablalistado.getColumnModel().getColumn(0).setMaxWidth(0);
         tablalistado.getColumnModel().getColumn(0).setMinWidth(0);
         tablalistado.getColumnModel().getColumn(0).setPreferredWidth(0);
+        //prueba de sincronizacion
     }
 
     void inhabilitar() {
