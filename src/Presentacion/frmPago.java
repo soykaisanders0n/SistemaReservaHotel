@@ -42,7 +42,7 @@ public class frmPago extends javax.swing.JInternalFrame {
         initComponents();
         mostrar(idreserva);
         inhabilitar();
-        totalreserva = 0.0;
+        //totalreserva = 0.0;
         txtidreserva.setText(idreserva);
         txtcliente.setText(cliente);
         txthabitacion.setText(habitacion);

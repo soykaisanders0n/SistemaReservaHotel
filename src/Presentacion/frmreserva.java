@@ -15,14 +15,16 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import jdk.nashorn.internal.ir.BreakNode;
 
 /**
  *
  * @author Chv0
  */
 public class frmreserva extends javax.swing.JInternalFrame {
-    
-    Calendar cal=new GregorianCalendar();
+
+    Calendar cal = new GregorianCalendar();
+
     /**
      * Creates new form frmreserva
      */
@@ -30,10 +32,10 @@ public class frmreserva extends javax.swing.JInternalFrame {
         initComponents();
         this.mostrar("");
         inhabilitar();
-        
+        dcfecha_reserva.setEnabled(false);
         dcfecha_reserva.setCalendar(cal);
     }
-    
+
     private String accion = "guardar";
     public static int idusuario;
 
@@ -41,97 +43,100 @@ public class frmreserva extends javax.swing.JInternalFrame {
         tablalistado.getColumnModel().getColumn(0).setMaxWidth(0);
         tablalistado.getColumnModel().getColumn(0).setMinWidth(0);
         tablalistado.getColumnModel().getColumn(0).setPreferredWidth(0);
-        
+
         tablalistado.getColumnModel().getColumn(1).setMaxWidth(0);
         tablalistado.getColumnModel().getColumn(1).setMinWidth(0);
         tablalistado.getColumnModel().getColumn(1).setPreferredWidth(0);
-        
+
         tablalistado.getColumnModel().getColumn(3).setMaxWidth(0);
         tablalistado.getColumnModel().getColumn(3).setMinWidth(0);
         tablalistado.getColumnModel().getColumn(3).setPreferredWidth(0);
-        
+
         tablalistado.getColumnModel().getColumn(5).setMaxWidth(0);
         tablalistado.getColumnModel().getColumn(5).setMinWidth(0);
         tablalistado.getColumnModel().getColumn(5).setPreferredWidth(0);
     }
-    
+
     void inhabilitar() {
         txtidreserva.setVisible(false);
         txtidhabitacion.setVisible(false);
         txtidcliente.setVisible(false);
         txtidtrabajador.setVisible(false);
-        
+
         txtnumero.setEnabled(false);
         txtcliente.setEnabled(false);
         txttrabajador.setEnabled(false);
         cbotipo_reserva.setEnabled(false);
-        
+
         dcfecha_reserva.setEnabled(false);
         dcfecha_ingresa.setEnabled(false);
         dcfecha_salida.setEnabled(false);
-        
+
         txtcosto_alojamiento.setEnabled(false);
         cbotipo_reserva.setEnabled(false);
-        
+
         btnguardar.setEnabled(false);
         btncancelar.setEnabled(false);
         btneliminar.setEnabled(false);
         btnbuscacliente.setEnabled(false);
         btnbuscahabitacion.setEnabled(false);
-        
+
         txtidreserva.setText("");
         txtidcliente.setText("");
         txtnumero.setText("");
         txtcliente.setText("");
         txtcosto_alojamiento.setText("");
         txtidhabitacion.setText("");
-        
+
     }
-    
+
     void habilitar() {
         txtidreserva.setVisible(false);
         txtidhabitacion.setVisible(false);
         txtidcliente.setVisible(false);
         txtidtrabajador.setVisible(false);
-        
+
         txtnumero.setEnabled(false);
         txtcliente.setEnabled(false);
         txttrabajador.setEnabled(false);
-        
+
         cbotipo_reserva.setEnabled(true);
-        
-        dcfecha_reserva.setEnabled(true);
+
+        //dcfecha_reserva.setEnabled(true);
         dcfecha_ingresa.setEnabled(true);
         dcfecha_salida.setEnabled(true);
-        
+
         txtcosto_alojamiento.setEnabled(true);
         cbotipo_reserva.setEnabled(true);
-        
+
         btnguardar.setEnabled(true);
         btncancelar.setEnabled(true);
         btneliminar.setEnabled(true);
         btnbuscacliente.setEnabled(true);
         btnbuscahabitacion.setEnabled(true);
-        
+
         txtidreserva.setText("");
         txtidcliente.setText("");
         txtnumero.setText("");
         txtcliente.setText("");
         txtcosto_alojamiento.setText("");
         txtidhabitacion.setText("");
-        
+        dcfecha_ingresa.setDate(null);
+        dcfecha_salida.setDate(null);
+
+        //
     }
-    
+
     void mostrar(String buscar) {
         try {
             DefaultTableModel modelo;
             freserva func = new freserva();
             modelo = func.mostrar(buscar);
-            
+
             tablalistado.setModel(modelo);
             ocultar_columnas();
             lbltotalregistros.setText("Total Registros " + Integer.toString(func.totalregistros));
-            
+
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(rootPane, e);
         }
@@ -353,15 +358,11 @@ public class frmreserva extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel8))))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel8))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -463,7 +464,7 @@ public class frmreserva extends javax.swing.JInternalFrame {
                                 .addGap(15, 15, 15)
                                 .addComponent(dcfecha_salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(txtcosto_alojamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(34, 34, 34)
@@ -635,7 +636,7 @@ public class frmreserva extends javax.swing.JInternalFrame {
 
     private void txtcosto_alojamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcosto_alojamientoActionPerformed
         txtcosto_alojamiento.transferFocus();
-        
+
     }//GEN-LAST:event_txtcosto_alojamientoActionPerformed
 
     private void cbotipo_reservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbotipo_reservaActionPerformed
@@ -662,76 +663,88 @@ public class frmreserva extends javax.swing.JInternalFrame {
             txtidcliente.requestFocus();
             return;
         }
-        
+
         if (txtcosto_alojamiento.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un precio del Alojamiento");
             txtcosto_alojamiento.requestFocus();
             return;
         }
-        
+
         vreserva dts = new vreserva();
         freserva func = new freserva();
-        
+
         dts.setIdhabitacion(Integer.parseInt(txtidhabitacion.getText()));
         dts.setIdcliente(Integer.parseInt(txtidcliente.getText()));
         dts.setIdtrabajador(idusuario);
-        
+
         int seleccionado = cbotipo_reserva.getSelectedIndex();
         dts.setTipo_reserva((String) cbotipo_reserva.getItemAt(seleccionado));
-        
+
         Calendar cal;
         int d, m, a;
-        
+
         cal = dcfecha_reserva.getCalendar();
         d = cal.get(Calendar.DAY_OF_MONTH);
         m = cal.get(Calendar.MONTH);
         a = cal.get(Calendar.YEAR) - 1900;
         dts.setFecha_reserva(new Date(a, m, d));
-        
+
         cal = dcfecha_ingresa.getCalendar();
         d = cal.get(Calendar.DAY_OF_MONTH);
         m = cal.get(Calendar.MONTH);
         a = cal.get(Calendar.YEAR) - 1900;
         dts.setFecha_ingresa(new Date(a, m, d));
-        
+
         cal = dcfecha_salida.getCalendar();
         d = cal.get(Calendar.DAY_OF_MONTH);
         m = cal.get(Calendar.MONTH);
         a = cal.get(Calendar.YEAR) - 1900;
         dts.setFecha_salida(new Date(a, m, d));
-        
+
         dts.setCosto_alojamiento(Double.parseDouble(txtcosto_alojamiento.getText()));
         seleccionado = cboestado.getSelectedIndex();
         dts.setEstado((String) cboestado.getItemAt(seleccionado));
-        
-        if (accion.equals("guardar")) {
-            dts.setEliminado(false);
-            if (func.insertar(dts)) {
-                JOptionPane.showMessageDialog(rootPane, "La reserva fue registrada satisfactoriamente");
-                mostrar("");
-                inhabilitar();
 
-                //ocupamos la Habitación alquilada
-                fhabitacion func3 = new fhabitacion();
-                vhabitacion dts3 = new vhabitacion();
-                //no se esta usando el campo de id habitacion
-                System.out.println(txtidhabitacion.getText());
-                //dts3.setIdhabitacion(Integer.parseInt(txtidhabitacion.getText()));
-                func3.ocupar(dts3);
+        if (accion.equals("guardar")) {
+
+            if (dts.getFecha_ingresa().after(dts.getFecha_salida())) {
+                JOptionPane.showConfirmDialog(null, "la fecha de ingreso no puede ser despues de la fecha de salida");
+
+            } else {
+                dts.setEliminado(false);
+                if (func.insertar(dts)) {
+                    JOptionPane.showMessageDialog(rootPane, "La reserva fue registrada satisfactoriamente");
+                    mostrar("");
+                    inhabilitar();
+
+                    //ocupamos la Habitación alquilada
+                    fhabitacion func3 = new fhabitacion();
+                    vhabitacion dts3 = new vhabitacion();
+                    //no se esta usando el campo de id habitacion
+                    System.out.println(txtidhabitacion.getText());
+                    //dts3.setIdhabitacion(Integer.parseInt(txtidhabitacion.getText()));
+                    func3.ocupar(dts3);
+                }
             }
-            
+
         } else if (accion.equals("editar")) {
-            dts.setIdreserva(Integer.parseInt(txtidreserva.getText()));
-            dts.setIdtrabajador(Integer.parseInt(txtidtrabajador.getText()));            
-            if (func.editar(dts)) {
-                JOptionPane.showMessageDialog(rootPane, "La reserva fue Editada satisfactoriamente");
-                mostrar("");
-                inhabilitar();
+            if (dts.getFecha_ingresa().after(dts.getFecha_salida())) {
+                JOptionPane.showConfirmDialog(null, "la fecha de ingreso no puede ser despues de la fecha de salida");
+
+            } else {
+                dts.setIdreserva(Integer.parseInt(txtidreserva.getText()));
+                dts.setIdtrabajador(Integer.parseInt(txtidtrabajador.getText()));
+                if (func.editar(dts)) {
+                    JOptionPane.showMessageDialog(rootPane, "La reserva fue Editada satisfactoriamente");
+                    mostrar("");
+                    inhabilitar();
+                }
             }
-        } 
+
+        }
     }//GEN-LAST:event_btnguardarActionPerformed
 
-    
+
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -743,9 +756,9 @@ public class frmreserva extends javax.swing.JInternalFrame {
         habilitar();
         btneliminar.setEnabled(true);
         accion = "editar";
-        
+
         int fila = tablalistado.rowAtPoint(evt.getPoint());
-        
+
         txtidreserva.setText(tablalistado.getValueAt(fila, 0).toString());
         txtidhabitacion.setText(tablalistado.getValueAt(fila, 1).toString());
         txtnumero.setText(tablalistado.getValueAt(fila, 2).toString());
@@ -753,7 +766,7 @@ public class frmreserva extends javax.swing.JInternalFrame {
         txtcliente.setText(tablalistado.getValueAt(fila, 4).toString());
         txtidtrabajador.setText(tablalistado.getValueAt(fila, 5).toString());
         txttrabajador.setText(tablalistado.getValueAt(fila, 6).toString());
-        
+
         cbotipo_reserva.setSelectedItem(tablalistado.getValueAt(fila, 7).toString());
         dcfecha_reserva.setDate(Date.valueOf(tablalistado.getValueAt(fila, 8).toString()));
         dcfecha_ingresa.setDate(Date.valueOf(tablalistado.getValueAt(fila, 9).toString()));
@@ -772,19 +785,19 @@ public class frmreserva extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (!txtidreserva.getText().equals("")) {
             int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar la Reserva?", "Confirmar", 2);
-            
+
             if (confirmacion == 0) {
                 freserva func = new freserva();
                 vreserva dts = new vreserva();
-                
+
                 dts.setIdreserva(Integer.parseInt(txtidreserva.getText()));
                 dts.setEliminado(true);
                 func.eliminar(dts);
                 mostrar("");
                 inhabilitar();
-                
+
             }
-            
+
         }
     }//GEN-LAST:event_btneliminarActionPerformed
 
@@ -818,7 +831,7 @@ public class frmreserva extends javax.swing.JInternalFrame {
         frmvistahabitacion form = new frmvistahabitacion();
         form.toFront();
         form.setVisible(true);
-        
+
     }//GEN-LAST:event_btnbuscahabitacionActionPerformed
 
     private void btnbuscaclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaclienteActionPerformed
@@ -833,7 +846,7 @@ public class frmreserva extends javax.swing.JInternalFrame {
         int fila = tablalistado.getSelectedRow();
         frmConsumo.idreserva = tablalistado.getValueAt(fila, 0).toString();
         frmConsumo.cliente = tablalistado.getValueAt(fila, 4).toString();
-        
+
         frmConsumo form = new frmConsumo();
         frminicio.escritorio.add(form);
         form.toFront();
@@ -843,15 +856,15 @@ public class frmreserva extends javax.swing.JInternalFrame {
     private void btnrealizarpagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrealizarpagosActionPerformed
         // TODO add your handling code here:
         int fila = tablalistado.getSelectedRow();
-        
+
         frmPago.idreserva = tablalistado.getValueAt(fila, 0).toString();
         frmPago.cliente = tablalistado.getValueAt(fila, 4).toString();
-        
+
         frmPago.totalreserva = Double.parseDouble(tablalistado.getValueAt(fila, 11).toString());
-        
+
         frmPago.idhabitacion = tablalistado.getValueAt(fila, 1).toString();
         frmPago.habitacion = tablalistado.getValueAt(fila, 2).toString();
-        
+
         String estado = tablalistado.getValueAt(fila, 12).toString();
         if (estado.equals("Alquiler")) {
             frmPago form = new frmPago();
@@ -859,9 +872,9 @@ public class frmreserva extends javax.swing.JInternalFrame {
             form.toFront();
             form.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Esta transacción fúe "+estado);
+            JOptionPane.showMessageDialog(null, "Esta transacción fúe " + estado);
         }
-        
+
 
     }//GEN-LAST:event_btnrealizarpagosActionPerformed
 
@@ -870,17 +883,20 @@ public class frmreserva extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtnumeroActionPerformed
 
     private void txtcosto_alojamientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcosto_alojamientoKeyTyped
-        char car=evt.getKeyChar();
-        if(txtcosto_alojamiento.getText().length()==10)evt.consume();
-        if(car <'0' || car>'9')evt.consume();
+        char car = evt.getKeyChar();
+        if (txtcosto_alojamiento.getText().length() == 10) {
+            evt.consume();
+        }
+        if (car < '0' || car > '9')
+            evt.consume();
     }//GEN-LAST:event_txtcosto_alojamientoKeyTyped
 
     private void dcfecha_reservaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dcfecha_reservaKeyPressed
-        
+
     }//GEN-LAST:event_dcfecha_reservaKeyPressed
 
     private void dcfecha_ingresaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dcfecha_ingresaMouseClicked
-        
+
     }//GEN-LAST:event_dcfecha_ingresaMouseClicked
 
     /**

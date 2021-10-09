@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Presentacion;
 
 import Datos.vcliente;
 import Logica.fcliente;
 import Logica.fproducto;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,7 +26,7 @@ public class frmcliente extends javax.swing.JInternalFrame {
         mostrar("");
         inhabilitar();
     }
-       private String accion = "guardar";
+    private String accion = "guardar";
 
     void ocultar_columnas() {
         tablalistado.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -36,7 +36,7 @@ public class frmcliente extends javax.swing.JInternalFrame {
 
     void inhabilitar() {
         txtidpersona.setVisible(false);
-        
+
         txtnombre.setEnabled(false);
         txtapaterno.setEnabled(false);
         txtamaterno.setEnabled(false);
@@ -63,7 +63,7 @@ public class frmcliente extends javax.swing.JInternalFrame {
 
     void habilitar() {
         txtidpersona.setVisible(false);
-        
+
         txtnombre.setEnabled(true);
         txtapaterno.setEnabled(true);
         txtamaterno.setEnabled(true);
@@ -86,7 +86,6 @@ public class frmcliente extends javax.swing.JInternalFrame {
         txttelefono.setText("");
         txtemail.setText("");
         txtcodigo_cliente.setText("");
-        
 
     }
 
@@ -105,7 +104,6 @@ public class frmcliente extends javax.swing.JInternalFrame {
         }
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -577,20 +575,19 @@ public class frmcliente extends javax.swing.JInternalFrame {
             txtapaterno.requestFocus();
             return;
         }
-        
+
         if (txtamaterno.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un apellido para el cliente");
             txtamaterno.requestFocus();
             return;
         }
-        
 
         if (txtnum_documento.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un Número de Doc para el cliente");
             txtnum_documento.requestFocus();
             return;
         }
-        
+
         if (txtcodigo_cliente.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un Código para el cliente");
             txtcodigo_cliente.requestFocus();
@@ -599,8 +596,8 @@ public class frmcliente extends javax.swing.JInternalFrame {
 
         vcliente dts = new vcliente();
         fcliente func = new fcliente();
-        Validaciones validar=new Validaciones();
-        
+        Validaciones validar = new Validaciones();
+
         //validar.isAlfa(txtnombre.getText());
         dts.setNombre(txtnombre.getText());
 
@@ -609,12 +606,12 @@ public class frmcliente extends javax.swing.JInternalFrame {
         int seleccionado = cbotipo_documento.getSelectedIndex();
         dts.setTipo_documento((String) cbotipo_documento.getItemAt(seleccionado));
         dts.setNum_documento(txtnum_documento.getText());
-        
+
         dts.setDireccion(txtdireccion.getText());
         dts.setTelefono(txttelefono.getText());
         dts.setEmail(txtemail.getText());
         dts.setCodigo_cliente(txtcodigo_cliente.getText());
-        
+
         if (accion.equals("guardar")) {
             if (func.insertar(dts)) {
                 JOptionPane.showMessageDialog(rootPane, "el cliente fue registrado satisfactoriamente");
@@ -623,8 +620,7 @@ public class frmcliente extends javax.swing.JInternalFrame {
 
             }
 
-        }
-        else if (accion.equals("editar")){
+        } else if (accion.equals("editar")) {
             dts.setIdpersona(Integer.parseInt(txtidpersona.getText()));
 
             if (func.editar(dts)) {
@@ -645,7 +641,7 @@ public class frmcliente extends javax.swing.JInternalFrame {
         btnguardar.setText("Editar");
         habilitar();
         btneliminar.setEnabled(true);
-        accion="editar";
+        accion = "editar";
 
         int fila = tablalistado.rowAtPoint(evt.getPoint());
 
@@ -662,23 +658,38 @@ public class frmcliente extends javax.swing.JInternalFrame {
         txtcodigo_cliente.setText(tablalistado.getValueAt(fila, 9).toString());
     }//GEN-LAST:event_tablalistadoMouseClicked
 
-    private void ValidarCedula(){
-        if(Validaciones.Cedula(txtnum_documento.getText())){
-            JOptionPane.showMessageDialog(null, "Cedula Correcta");
-        }else{
-            JOptionPane.showMessageDialog(null, "Cedula Incorrecta");
+    private void validarcampo() {
+        ArrayList<String> errores = new ArrayList<>();
+
+        if (!Validaciones.Cedula(txtnum_documento.getText())) {
+            errores.add("Cedula Incorrecta");
+        }
+        if (txtnombre.getText().isEmpty()) {
+            errores.add("Campo nombre incompleto");
+        }
+        if (txtapaterno.getText().isEmpty()) {
+            errores.add("Campo Apellido paterno incompleto");
+        }
+        if (txtamaterno.getText().isEmpty()) {
+            errores.add("Campo Apellido materno incompleto");
+        }
+        if (txtnum_documento.getText().isEmpty()) {
+            errores.add("Campo Numero de documento incompleto");
+        }
+        if (txtdireccion.getText().isEmpty()) {
+            errores.add("Campo direccion incompleto");
+        }
+        if (txttelefono.getText().isEmpty()) {
+            errores.add("Campo Telefono incompleto");
+        }
+        if (txtemail.getText().isEmpty()) {
+            errores.add("Campo Email incompleto");
+        }
+        if (errores.size() != 0) {
+            JOptionPane.showMessageDialog(null, "Existen campos incompletos");
         }
     }
-    private void validarcampo(){
-        if(txtnombre.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo nombre incompleto");
-        if(txtapaterno.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Apellido paterno incompleto");
-        if(txtamaterno.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Apellido materno incompleto");
-        if(txtnum_documento.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Numero de documento incompleto");
-        if(txtdireccion.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo direccion incompleto");
-        if(txttelefono.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Telefono incompleto");
-        if(txtemail.getText().isEmpty())JOptionPane.showMessageDialog(null, "Campo Email incompleto");
-    }
-    
+
     private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
         // TODO add your handling code here:
         mostrar(txtbuscar.getText());
@@ -687,11 +698,11 @@ public class frmcliente extends javax.swing.JInternalFrame {
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
         // TODO add your handling code here:
         if (!txtidpersona.getText().equals("")) {
-            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar el Cliente?","Confirmar",2);
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar el Cliente?", "Confirmar", 2);
 
-            if (confirmacion==0) {
+            if (confirmacion == 0) {
                 fcliente func = new fcliente();
-                vcliente dts= new vcliente();
+                vcliente dts = new vcliente();
 
                 dts.setIdpersona(Integer.parseInt(txtidpersona.getText()));
                 func.eliminar(dts);
@@ -739,41 +750,55 @@ public class frmcliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtcodigo_clienteActionPerformed
 
     private void ValidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ValidarActionPerformed
-        ValidarCedula();
+
         validarcampo();
         btnguardar.setEnabled(true);
     }//GEN-LAST:event_ValidarActionPerformed
 
     private void txtnum_documentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnum_documentoKeyTyped
-        char car=evt.getKeyChar();
-        if(txtnum_documento.getText().length()==10)evt.consume();
-        if(car <'0' || car>'9')evt.consume();
+        char car = evt.getKeyChar();
+        if (txtnum_documento.getText().length() == 10) {
+            evt.consume();
+        }
+        if (car < '0' || car > '9') {
+            evt.consume();
+        }
         btnguardar.setEnabled(false);
     }//GEN-LAST:event_txtnum_documentoKeyTyped
 
     private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
-        if(txttelefono.getText().length()==10)evt.consume();
-        char car=evt.getKeyChar();
-        if(car <'0' || car>'9')evt.consume();
+        if (txttelefono.getText().length() == 10) {
+            evt.consume();
+        }
+        char car = evt.getKeyChar();
+        if (car < '0' || car > '9') {
+            evt.consume();
+        }
         btnguardar.setEnabled(false);
     }//GEN-LAST:event_txttelefonoKeyTyped
 
     private void txtnombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreKeyTyped
-        char c=evt.getKeyChar();
-         if((c<'a' || c>'z') && (c<'A' || c>'Z'))evt.consume();
-         btnguardar.setEnabled(false);
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        btnguardar.setEnabled(false);
     }//GEN-LAST:event_txtnombreKeyTyped
 
     private void txtapaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtapaternoKeyTyped
-        char c=evt.getKeyChar();
-         if((c<'a' || c>'z') && (c<'A' || c>'Z'))evt.consume();
-         btnguardar.setEnabled(false);
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        btnguardar.setEnabled(false);
     }//GEN-LAST:event_txtapaternoKeyTyped
 
     private void txtamaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtamaternoKeyTyped
-        char c=evt.getKeyChar();
-         if((c<'a' || c>'z') && (c<'A' || c>'Z'))evt.consume();
-         btnguardar.setEnabled(false);
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        btnguardar.setEnabled(false);
     }//GEN-LAST:event_txtamaternoKeyTyped
 
     private void txtemailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtemailKeyTyped
@@ -784,8 +809,6 @@ public class frmcliente extends javax.swing.JInternalFrame {
         btnguardar.setEnabled(false);
     }//GEN-LAST:event_txtcodigo_clienteKeyTyped
 
-    
-    
     /**
      * @param args the command line arguments
      */

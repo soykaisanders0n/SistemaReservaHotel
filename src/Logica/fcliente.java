@@ -10,6 +10,7 @@ import Datos.vproducto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -107,16 +108,23 @@ public class fcliente {
                 return false;
             }
 
-        } catch (Exception e) {
-            JOptionPane.showConfirmDialog(null, e);
+        } catch (SQLException e) {
+
+            if (e.getErrorCode() == 1062) {
+                JOptionPane.showMessageDialog(null, "El valor '" + e.getMessage().substring(17, 27) + "' ya existe.");
+            } else {
+                JOptionPane.showMessageDialog(null, e);
+            }
+            System.out.println(e.getLocalizedMessage() + " error " + e.getErrorCode());
             return false;
+
         }
     }
 
     public boolean editar(vcliente dts) {
         sSQL = "update persona set nombre=?,apaterno=?,amaterno=?,tipo_documento=?,num_documento=?,"
                 + " direccion=?,telefono=?,email=? where idpersona=?";
-        
+
         sSQL2 = "update cliente set codigo_cliente=?"
                 + " where idpersona=?";
         try {
@@ -153,9 +161,16 @@ public class fcliente {
                 return false;
             }
 
-        } catch (Exception e) {
-            JOptionPane.showConfirmDialog(null, e);
+        } catch (SQLException e) {
+
+            if (e.getErrorCode() == 1062) {
+                JOptionPane.showMessageDialog(null, "El valor '" + e.getMessage().substring(17, 27) + "' ya existe.");
+            } else {
+                JOptionPane.showMessageDialog(null, e);
+            }
+            System.out.println(e.getLocalizedMessage() + " error " + e.getErrorCode());
             return false;
+
         }
     }
 
@@ -168,10 +183,8 @@ public class fcliente {
             PreparedStatement pst = cn.prepareStatement(sSQL);
             PreparedStatement pst2 = cn.prepareStatement(sSQL2);
 
-            
             pst.setInt(1, dts.getIdpersona());
 
-            
             pst2.setInt(1, dts.getIdpersona());
 
             int n = pst.executeUpdate();
